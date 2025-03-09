@@ -6,9 +6,9 @@ from flask import Flask
 
 app = Flask(__name__)
 
-WEBHOOK_URL = 'https://discord.com/api/webhooks/1348251353176211466/aJuTBKtxqOUCbHqOTamKZsuP4EmWDofZqq9o9FFZvbyuczL5JwhZHmBcAIc4SKKA9Z3b'
-MESSAGE_ID = '1348286214284906618'
-API_URL = 'http://fi1.bot-hosting.net:6957/'
+WEBHOOK_URL = 'https://discord.com/api/webhooks/1348321504236142613/_5pxDSZ-1B289Vm1wgOBXzxyZWkBrvzTpLue_UZ34xEXWMReVon7bPKA7iWNiM4MdgKm'
+MESSAGE_ID = '1348324534901674045'
+API_URL = 'http://fi4.bot-hosting.net:22869/'
 
 uptime = timedelta()
 downtime = timedelta()
@@ -34,7 +34,7 @@ def build_embed(status):
             {"name": "Uptime", "value": format_time(uptime), "inline": True},
             {"name": "Downtime", "value": format_time(downtime), "inline": True},
             {"name": "Status", "value": status, "inline": True},
-            {"name": "Last Updated", "value": now, "inline": False}
+            {"name": "Last Updated (Europe/Bucharest)", "value": now, "inline": False}
         ]
     }
 
