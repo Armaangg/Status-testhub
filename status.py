@@ -79,6 +79,8 @@ if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
     from http.server import SimpleHTTPRequestHandler, HTTPServer
 
+from http.server import SimpleHTTPRequestHandler, HTTPServer
+
 class MyHandler(SimpleHTTPRequestHandler):
     def do_GET(self):
         if self.path == '/':
@@ -89,6 +91,9 @@ class MyHandler(SimpleHTTPRequestHandler):
         else:
             super().do_GET()
 
+# Change 8080 to the desired port if needed
 server = HTTPServer(('0.0.0.0', 8080), MyHandler)
-print("API is online")
+print("Server running at http://localhost:8080/")
+
+# Run the server
 server.serve_forever()
