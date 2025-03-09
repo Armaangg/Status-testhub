@@ -21,8 +21,12 @@ def format_time(delta):
     return f"{days}d {hours}h {minutes}m {seconds}s"
 
 def edit_message(embed):
-    response = requests.patch(f"{WEBHOOK_URL}/messages/{MESSAGE_ID}", json={"embeds": [embed]})
+    response = requests.patch(f"{WEBHOOK_URL}/messages/{MESSAGE_ID}", json={
+        "content": "API STATUS",  # This is your normal message
+        "embeds": [embed]
+    })
     return response
+
 
 def build_embed(status):
     now = datetime.now(pytz.timezone('Europe/Bucharest')).strftime('%Y-%m-%d %I:%M:%S %p')
