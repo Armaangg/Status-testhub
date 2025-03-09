@@ -25,7 +25,7 @@ def edit_message(embed):
     return response
 
 def build_embed(status):
-    now = datetime.now(pytz.timezone('Asia/Kolkata')).strftime('%Y-%m-%d %I:%M:%S %p')
+    now = datetime.now(pytz.timezone('Europe/Bucharest')).strftime('%Y-%m-%d %I:%M:%S %p')
     color = 0x00FF00 if status == 'Online' else 0xFF0000
     return {
         "title": "API STATUS",
