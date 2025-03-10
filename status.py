@@ -3,6 +3,8 @@ import time
 import pytz
 from datetime import datetime, timedelta
 from flask import Flask
+import threading
+from http.server import SimpleHTTPRequestHandler, HTTPServer
 
 app = Flask(__name__)
 
@@ -27,7 +29,6 @@ def edit_message(embed):
     })
     return response
 
-
 def build_embed(status):
     now = datetime.now(pytz.timezone('Europe/Bucharest')).strftime('%Y-%m-%d %I:%M:%S %p')
     color = 0x00FF00 if status == 'Online' else 0xFF0000
@@ -42,8 +43,7 @@ def build_embed(status):
         ]
     }
 
-@app.route("/")
-def home():
+def monitor_api():
     global uptime, downtime, last_check
     previous_status = None
 
@@ -75,17 +75,29 @@ def home():
         
         time.sleep(1)
 
-if __name__ == "__main__":
+@app.route("/")
+def home():
+    return "API Uptime Monitor Running"
+
+def run_flask():
     app.run(host="0.0.0.0", port=10000)
-    from http.server import SimpleHTTPRequestHandler, HTTPServer
 
-class MyHandler(SimpleHTTPRequestHandler):
-    def do_GET(self):
-        if self.path == '/':
-            self.path = '/index.html'
-        return super().do_GET()
+def run_http_server():
+    class MyHandler(SimpleHTTPRequestHandler):
+        def do_GET(self):
+            if self.path == '/':
+                self.path = '/index.html'
+            return super().do_GET()
 
-server_address = ('', 8000)
-httpd = HTTPServer(server_address, MyHandler)
-print("Server running at http://localhost:8000")
-httpd.serve_forever()
+    server_address = ('', 8000)
+    httpd = HTTPServer(server_address, MyHandler)
+    print("Server running at http://localhost:8000")
+    httpd.serve_forever()
+
+# Run the API monitor in a separate thread
+threading.Thread(target=monitor_api, daemon=True).start()
+
+# Run Flask and HTTP server concurrently
+threading.Thread(target=run_flask, daemon=True).start()
+run_http_server()
+                    
